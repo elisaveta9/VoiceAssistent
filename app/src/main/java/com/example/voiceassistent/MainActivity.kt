@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSend(){
         val text = questionText.text.toString()
+        chatWindow.append(text + "\n")
         val answer = "Вопрос понял. Думаю…"
+        chatWindow.append(answer + "\n")
+        questionText.text.clear()
         dismissKeyboard()
     }
 
