@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoiceAssistent</string>
+    <string name="hint">Задайте вопрос</string>
+    <string name="send_button">Отправить</string>
+</resources>
