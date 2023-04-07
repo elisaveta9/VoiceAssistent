@@ -1,5 +1,24 @@
 <resources>
-    <string name="app_name">VoiceAssistent</string>
-    <string name="hint">Ask a question</string>
-    <string name="send_button">Send</string>
+    <string name="app_name">Голосовой ассистент</string>
+    <string name="hint">Задайте вопрос</string>
+    <string name="send_button">Отправить</string>
+
+    <string name="hello_pattern">.*((привет(ик)?)|(здравствуй)).*</string>
+    <string name="how_are_you_pattern">.*как (дел(а|(ишки)))\\?.*</string>
+    <string name="what_are_you_doing_pattern">.*((а )?чем занимаешься\\?).*</string>
+    <string name="date_today_pattern">.*(какой сегодня день\\?).*</string>
+    <string name="what_time_is_it_pattern">.*(который час\\?).*</string>
+    <string name="day_of_the_week_today_pattern">.*(какой (сегодня день недели)|(день недели сегодня)\\?).*</string>
+    <string name="diff_between_dates_pattern">.*(сколько дней до ()|()\\?).*</string>
+
+    <string name="hello_answer">Привет.</string>
+    <string name="how_are_you_answer">Не плохо.</string>
+    <string name="what_are_you_doing_answer">Отвечаю на вопросы.</string>
+    <string name="day_of_week_monday">понедельник</string>
+    <string name="day_of_week_tuesday">вторник</string>
+    <string name="day_of_week_wednesday">среда</string>
+    <string name="day_of_week_thursday">четверг</string>
+    <string name="day_of_week_friday">пятница</string>
+    <string name="day_of_week_saturday">суббота</string>
+    <string name="day_of_week_sunday">воскресенье</string>
 </resources>

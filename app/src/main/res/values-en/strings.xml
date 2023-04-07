@@ -3,4 +3,23 @@
     <string name="app_name">VoiceAssistent</string>
     <string name="hint">Ask a question</string>
     <string name="send_button">Send</string>
+
+    <string name="hello_pattern">.*((hi)|(hello)).*</string>
+    <string name="how_are_you_pattern">.*(how (are you)|(you doing)|(goes it)\\?).*</string>
+    <string name="what_are_you_doing_pattern">.*(what (are you doing)|(do you do)\\?).*</string>
+    <string name="date_today_pattern">.*(what\'s the date today\\?).*</string>
+    <string name="what_time_is_it_pattern">.*(what time is it\\?).*</string>
+    <string name="day_of_the_week_today_pattern">.*(what day of the week is today\\?).*</string>
+    <string name="diff_between_dates_pattern">.*(сколько дней до ()|()\\?).*</string>
+
+    <string name="hello_answer">Hello.</string>
+    <string name="how_are_you_answer">I\'m fine.</string>
+    <string name="what_are_you_doing_answer">I answer the questions/</string>
+    <string name="day_of_week_monday">monday</string>
+    <string name="day_of_week_tuesday">tuesday</string>
+    <string name="day_of_week_wednesday">wednesday</string>
+    <string name="day_of_week_thursday">thursday</string>
+    <string name="day_of_week_friday">friday</string>
+    <string name="day_of_week_saturday">saturday</string>
+    <string name="day_of_week_sunday">sunday</string>
 </resources>
