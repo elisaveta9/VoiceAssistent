@@ -14,6 +14,10 @@
     <string name="hello_answer">Привет.</string>
     <string name="how_are_you_answer">Не плохо.</string>
     <string name="what_are_you_doing_answer">Отвечаю на вопросы.</string>
+    <string name="what_time_is_it_answer">Текущее время - {CurrentTime}.</string>
+    <string name="day_of_the_week_today_answer">Сегодня {CurrentDayOfWeek}.</string>
+    <string name="date_today_answer">Сегодня {CurrentDate} г.</string>
+
     <string name="day_of_week_monday">понедельник</string>
     <string name="day_of_week_tuesday">вторник</string>
     <string name="day_of_week_wednesday">среда</string>

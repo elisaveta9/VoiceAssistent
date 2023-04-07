@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VoiceAssistent</string>
+    <string name="app_name">Voice Assistent</string>
     <string name="hint">Ask a question</string>
     <string name="send_button">Send</string>
 
@@ -15,6 +15,10 @@
     <string name="hello_answer">Hello.</string>
     <string name="how_are_you_answer">I\'m fine.</string>
     <string name="what_are_you_doing_answer">I answer the questions/</string>
+    <string name="what_time_is_it_answer">It\'s {CurrentTime} now.</string>
+    <string name="day_of_the_week_today_answer">Today is {CurrentDayOfWeek}.</string>
+    <string name="date_today_answer">Today is {CurrentDate} y.</string>
+
     <string name="day_of_week_monday">monday</string>
     <string name="day_of_week_tuesday">tuesday</string>
     <string name="day_of_week_wednesday">wednesday</string>
