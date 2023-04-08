@@ -83,7 +83,30 @@ class AI(context: Context) {
     }
 
     private fun getDiffBetweenDates(question: String):String{
-        var date = dateRegex.find(question)?.value
+        try {
+            var startDate = Date()
+            var endDate = getDateFromStr(question)
+            var date = dateRegex.find(question)?.value
+
+            val daysBetween =
+                ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()).toInt()
+            if (daysBetween < 0)
+                return "Заданная вами дата $date меньше текущего."
+            else if (daysBetween == 0) {
+                return if (startDate.day == endDate.day)
+                    "День $date уже наступил."
+                else
+                    "День $date наступит завтра."
+            }
+            return "До $date осталось дней - $daysBetween."
+        }
+        catch (e: Exception) {
+            return "${e.message}"
+        }
+    }
+
+    private fun getDateFromStr(strDate: String):Date{
+        var date = dateRegex.find(strDate)?.value
             ?.split("[-\\./ ]".toRegex())?.toTypedArray()
 
         var day = date?.get(0)!!.toInt()
@@ -95,40 +118,18 @@ class AI(context: Context) {
             if (key.matches(date?.get(1).toString()))
                 month = value
         }
-
         if (month == 0)
-            return "Название месяца введено неверно в ${date.joinToString()}"
+            throw Exception("Название месяца введено неверно в ${date.joinToString()}")
 
-        var startDate = Date()
-        var endDate: Date
-        var year = startDate.year
+        var year = Date().year
 
         if (date?.size!! > 2){
             year = date?.get(2).toInt()
-            if (year < 100)
-                year += 100
-            else
-                year -= 1900
+            if (year < 100) year += 100
+            else year -= 1900
         }
 
-        try {
-            endDate = Date(year, month, day)
-        }
-        catch (e: Exception) {
-            return "Введена некорректная дата"
-        }
-        year += 1900
-
-        val daysBetween =
-            ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()).toInt()
-        if (daysBetween < 0)
-            return "Заданный вами день $day-$month-$year меньше текущего."
-        else if (daysBetween == 0) {
-            return if (startDate.day == endDate.day)
-                "День $day-$month-$year уже наступил."
-            else
-                "День $day-$month-$year наступит завтра."
-        }
-        return "До $day-$month-$year осталось дней - $daysBetween."
+        try{ return Date(year, month, day) }
+        catch (e: Exception) { throw Exception("Введена неверная дата ${date.joinToString()}") }
     }
 }

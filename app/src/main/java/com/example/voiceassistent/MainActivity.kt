@@ -10,12 +10,14 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    lateinit var sendButton : Button
-    lateinit var chatWindow: TextView
+    private lateinit var sendButton : Button
+    private lateinit var chatWindow: TextView
     lateinit var questionText: EditText
     lateinit var textToSpeech: TextToSpeech
+    private var messageArray: ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +31,28 @@ class MainActivity : AppCompatActivity() {
             if (it != TextToSpeech.ERROR) {    textToSpeech.language = Locale.getDefault()}
         })
 
+        chatWindow.text = messageArray.joinToString("\n")
+
         sendButton.setOnClickListener {
             onSend()
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putStringArrayList("messageArray",messageArray)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
     private fun onSend() {
         val text = questionText.text.toString()
-        chatWindow.append(text + "\n")
+        messageArray.add(text)
         val answer = AI(context = applicationContext).getAnswer(text)
-        chatWindow.append(answer + "\n")
+        messageArray.add(answer)
+        chatWindow.text = messageArray.joinToString("\n")
         textToSpeech.speak(answer, TextToSpeech.QUEUE_FLUSH,null, null )
         questionText.text.clear()
         dismissKeyboard()
