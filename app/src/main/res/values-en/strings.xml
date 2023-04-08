@@ -41,4 +41,6 @@
     <string name="month_november">november</string>
     <string name="month_december">december</string>
     <string name="diff_between_dates_pattern">how many days until ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))\\?</string>
+    <string name="user_name">User</string>
+    <string name="assistant_name">Assintant</string>
 </resources>

@@ -41,5 +41,7 @@
     <string name="month_november">ноябр(ь|я)</string>
     <string name="month_december">декабр(ь|я)</string>
     <string name="diff_between_dates_pattern">сколько дней( осталось)? до ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\\\\\d{2})?)?)|(\\d{2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?))\\?</string>
+    <string name="user_name">Пользователь</string>
+    <string name="assistant_name">Ассистент</string>
 
 </resources>
