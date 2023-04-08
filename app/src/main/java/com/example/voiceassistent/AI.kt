@@ -5,6 +5,8 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.*
 
 class AI(context: Context) {
     private val daysOfWeek = mapOf(
@@ -15,6 +17,20 @@ class AI(context: Context) {
         DayOfWeek.FRIDAY to context.getString(R.string.day_of_week_friday),
         DayOfWeek.SATURDAY to context.getString(R.string.day_of_week_saturday),
         DayOfWeek.SUNDAY to context.getString(R.string.day_of_week_sunday)
+    )
+    private val months = mapOf(
+        context.getString(R.string.month_january).toRegex() to 1,
+        context.getString(R.string.month_february).toRegex() to 2,
+        context.getString(R.string.month_march).toRegex() to 3,
+        context.getString(R.string.month_april).toRegex() to 4,
+        context.getString(R.string.month_may).toRegex() to 5,
+        context.getString(R.string.month_june).toRegex() to 6,
+        context.getString(R.string.month_july).toRegex() to 7,
+        context.getString(R.string.month_august).toRegex() to 8,
+        context.getString(R.string.month_september).toRegex() to 9,
+        context.getString(R.string.month_october).toRegex() to 10,
+        context.getString(R.string.month_november).toRegex() to 11,
+        context.getString(R.string.month_december).toRegex() to 12
     )
     private val queAndAns = mapOf(
         context.getString(R.string.hello_pattern).toRegex() to
@@ -41,16 +57,78 @@ class AI(context: Context) {
                 context.getString(R.string.day_of_the_week_today_answer).
                 replace("{CurrentDayOfWeek}", daysOfWeek.get(LocalDate.now().dayOfWeek)!!)
     )
+    private val dateRegex = context.getString(
+        R.string.date_pattern
+    ).toRegex()
+    private val diffBetweenDatesReg = context.getString(
+        R.string.diff_between_dates_pattern
+    ).toRegex()
 
     fun getAnswer(question:String):String{
-        question.lowercase()
+        var text = question.lowercase()
         var answer = ""
         for ((key, value) in queAndAns.entries){
-            if (question.matches(key))
+            if (key.containsMatchIn(text))
                 answer += "$value "
         }
+        var matchResult = diffBetweenDatesReg.find(text)
+        while (matchResult != null){
+            answer += getDiffBetweenDates(matchResult.value) + " "
+            matchResult = matchResult.next()
+        }
+
         if (answer == "")
             answer = "Вопрос понял. Думаю..."
         return answer
+    }
+
+    private fun getDiffBetweenDates(question: String):String{
+        var date = dateRegex.find(question)?.value
+            ?.split("[-\\./ ]".toRegex())?.toTypedArray()
+
+        var day = date?.get(0)!!.toInt()
+        var month = 0
+
+        if (date?.get(1)?.length == 2)
+            month = date?.get(1).toInt()
+        else for ((key, value) in months.entries){
+            if (key.matches(date?.get(1).toString()))
+                month = value
+        }
+
+        if (month == 0)
+            return "Название месяца введено неверно в ${date.joinToString()}"
+
+        var startDate = Date()
+        var endDate: Date
+        var year = startDate.year
+
+        if (date?.size!! > 2){
+            year = date?.get(2).toInt()
+            if (year < 100)
+                year += 100
+            else
+                year -= 1900
+        }
+
+        try {
+            endDate = Date(year, month, day)
+        }
+        catch (e: Exception) {
+            return "Введена некорректная дата"
+        }
+        year += 1900
+
+        val daysBetween =
+            ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()).toInt()
+        if (daysBetween < 0)
+            return "Заданный вами день $day-$month-$year меньше текущего."
+        else if (daysBetween == 0) {
+            return if (startDate.day == endDate.day)
+                "День $day-$month-$year уже наступил."
+            else
+                "День $day-$month-$year наступит завтра."
+        }
+        return "До $day-$month-$year осталось дней - $daysBetween."
     }
 }

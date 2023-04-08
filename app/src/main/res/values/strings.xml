@@ -3,13 +3,14 @@
     <string name="hint">Задайте вопрос</string>
     <string name="send_button">Отправить</string>
 
-    <string name="hello_pattern">.*((привет(ик)?)|(здравствуй)).*</string>
-    <string name="how_are_you_pattern">.*как (дел(а|(ишки)))\\?.*</string>
-    <string name="what_are_you_doing_pattern">.*((а )?чем занимаешься\\?).*</string>
-    <string name="date_today_pattern">.*(какой сегодня день\\?).*</string>
-    <string name="what_time_is_it_pattern">.*(который час\\?).*</string>
-    <string name="day_of_the_week_today_pattern">.*(какой (сегодня день недели)|(день недели сегодня)\\?).*</string>
-    <string name="diff_between_dates_pattern">.*(сколько дней до ()|()\\?).*</string>
+    <string name="hello_pattern">(привет(ик)?)|(здравствуй)</string>
+    <string name="how_are_you_pattern">как (дел(а|(ишки)))\\?</string>
+    <string name="what_are_you_doing_pattern">(а )?чем занимаешься\\?</string>
+    <string name="date_today_pattern">какой сегодня день\\?</string>
+    <string name="what_time_is_it_pattern">который час\\?</string>
+    <string name="day_of_the_week_today_pattern">какой (сегодня день недели)|(день недели сегодня)\\?</string>
+
+    <string name="date_pattern">(\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?)</string>
 
     <string name="hello_answer">Привет.</string>
     <string name="how_are_you_answer">Не плохо.</string>
@@ -25,4 +26,18 @@
     <string name="day_of_week_friday">пятница</string>
     <string name="day_of_week_saturday">суббота</string>
     <string name="day_of_week_sunday">воскресенье</string>
+
+    <string name="month_january">январ(ь|я)</string>
+    <string name="month_february">феврал(ь|я)</string>
+    <string name="month_march">март(а)?</string>
+    <string name="month_april">апрел(ь|я)</string>
+    <string name="month_may">ма(й|я)</string>
+    <string name="month_june">июн(ь|я)</string>
+    <string name="month_july">июл(ь|я)</string>
+    <string name="month_august">августа?</string>
+    <string name="month_september">сентябр(ь|я)</string>
+    <string name="month_october">октябр(ь|я)</string>
+    <string name="month_november">ноябр(ь|я)</string>
+    <string name="month_december">декабр(ь|я)</string>
+    <string name="diff_between_dates_pattern">сколько дней (осталось)? до ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\\\\\d{2})?)?)|(\\d{2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?))\\?</string>
 </resources>
