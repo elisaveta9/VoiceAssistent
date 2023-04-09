@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             if (it != TextToSpeech.ERROR) {    textToSpeech.language = Locale.getDefault()}
         })
 
-
         sendButton.setOnClickListener {
             onSend()
         }
