@@ -7,52 +7,49 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.voiceassistent.message.Message
+import com.example.voiceassistent.message.MessageListAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var sendButton : Button
-    private lateinit var chatWindow: TextView
+    lateinit var sendButton : Button
+    lateinit var messageListAdapter: MessageListAdapter
     lateinit var questionText: EditText
     lateinit var textToSpeech: TextToSpeech
-    private var messageArray: ArrayList<String> = arrayListOf()
+    lateinit var chatMessageList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Locale.setDefault(Locale("ru"))
 
+        messageListAdapter = MessageListAdapter()
+
         sendButton = findViewById(R.id.sendButton)
-        chatWindow = findViewById(R.id.chatWindow)
+        chatMessageList = findViewById(R.id.chatMessageList)
+        chatMessageList.layoutManager = LinearLayoutManager(this)
+        chatMessageList.adapter = messageListAdapter
         questionText = findViewById(R.id.questionField)
         textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {
             if (it != TextToSpeech.ERROR) {    textToSpeech.language = Locale.getDefault()}
         })
 
-        chatWindow.text = messageArray.joinToString("\n")
 
         sendButton.setOnClickListener {
             onSend()
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putStringArrayList("messageArray",messageArray)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-    }
-
     private fun onSend() {
         val text = questionText.text.toString()
-        messageArray.add(text)
+        messageListAdapter.messageList.add(Message(text, isSend = true))
         val answer = AI(context = applicationContext).getAnswer(text)
-        messageArray.add(answer)
-        chatWindow.text = messageArray.joinToString("\n")
+        messageListAdapter.messageList.add(Message(answer, isSend = false))
+        messageListAdapter.notifyDataSetChanged()
+        chatMessageList.scrollToPosition(messageListAdapter.messageList.size - 1)
         textToSpeech.speak(answer, TextToSpeech.QUEUE_FLUSH,null, null )
         questionText.text.clear()
         dismissKeyboard()

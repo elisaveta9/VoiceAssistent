@@ -119,7 +119,7 @@ class AI(context: Context) {
                 month = value
         }
         if (month == 0)
-            throw Exception("Название месяца введено неверно в ${date.joinToString()}")
+            throw Exception("Название месяца введено неверно в ${date.joinToString(" ")}.")
 
         var year = Date().year
 
@@ -130,6 +130,6 @@ class AI(context: Context) {
         }
 
         try{ return Date(year, month, day) }
-        catch (e: Exception) { throw Exception("Введена неверная дата ${date.joinToString()}") }
+        catch (e: Exception) { throw Exception("Введена неверная дата ${date.joinToString()}.") }
     }
 }
