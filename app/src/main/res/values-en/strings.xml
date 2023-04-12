@@ -11,7 +11,7 @@
     <string name="what_time_is_it_pattern">what time is it\\?</string>
     <string name="day_of_the_week_today_pattern">what day of the week is today\\?</string>
 
-    <string name="date_pattern">(\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?)</string>
+    <string name="date_pattern">(\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?)</string>
 
     <string name="hello_answer">Hello.</string>
     <string name="how_are_you_answer">I\'m fine.</string>
@@ -40,7 +40,15 @@
     <string name="month_october">october</string>
     <string name="month_november">november</string>
     <string name="month_december">december</string>
-    <string name="diff_between_dates_pattern">how many days until ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))\\?</string>
+    <string name="diff_between_dates_pattern">how many days until ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))\\?</string>
     <string name="assistant_name">Assistant</string>
     <string name="user_name">User</string>
+    <string name="theme_swap">Change the theme</string>
+    <string name="message_date_error">The date you set {Date} is incorrect.</string>
+    <string name="message_month_error">The name of the month is entered incorrectly in the expression {Date}.</string>
+    <string name="message_past_date">The date {Date} has already passed.</string>
+    <string name="message_date_is_today">Date {Date} has come.</string>
+    <string name="message_date_is_tomorrow">Date {Date} will come tomorrow.</string>
+    <string name="message_difference_between_dates">There are {DaysBetween} days left until {Date}.</string>
+    <string name="default_answer">I understand the question. I think...</string>
 </resources>

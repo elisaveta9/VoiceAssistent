@@ -4,7 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/VoiceAssistent/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/drawable/assistant_bubble.xml" value="0.231" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/drawable/ic_theme_swap.xml" value="0.231" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/drawable/theme_swap.xml" value="0.231" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/drawable/user_bubble.xml" value="0.231" />
         <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/layout/assistant_message.xml" value="0.33" />
+        <entry key="..\:/Users/User/Documents/AndroidStudioProjects/VoiceAssistent/app/src/main/res/menu/menu_main.xml" value="0.33" />
       </map>
     </option>
   </component>

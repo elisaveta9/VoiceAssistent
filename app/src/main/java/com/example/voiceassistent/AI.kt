@@ -63,6 +63,13 @@ class AI(context: Context) {
     private val diffBetweenDatesReg = context.getString(
         R.string.diff_between_dates_pattern
     ).toRegex()
+    private val incorrectDateMessage = context.getString(R.string.message_date_error)
+    private val incorrectMonthMessage = context.getString(R.string.message_month_error)
+    private val pastDateMessage = context.getString(R.string.message_past_date)
+    private val dateIsTodayMessage = context.getString(R.string.message_date_is_today)
+    private val dateIsTomorrowMessage = context.getString(R.string.message_date_is_tomorrow)
+    private val diffBetweenDatesMessage = context.getString(R.string.message_difference_between_dates)
+    private val defaultAnswer = context.getString(R.string.default_answer)
 
     fun getAnswer(question:String):String{
         var text = question.lowercase()
@@ -78,27 +85,29 @@ class AI(context: Context) {
         }
 
         if (answer == "")
-            answer = "Вопрос понял. Думаю..."
+            answer = defaultAnswer
         return answer
     }
 
     private fun getDiffBetweenDates(question: String):String{
         try {
             var startDate = Date()
-            var endDate = getDateFromStr(question)
             var date = dateRegex.find(question)?.value
+            var endDate = getDateFromStr(date.toString())
 
             val daysBetween =
                 ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()).toInt()
             if (daysBetween < 0)
-                return "Заданная вами дата $date меньше текущего."
+                return pastDateMessage.replace("{Date}", date.toString())
             else if (daysBetween == 0) {
-                return if (startDate.day == endDate.day)
-                    "День $date уже наступил."
+                return if (startDate == endDate)
+                    dateIsTodayMessage.replace("{Date}", date.toString())
                 else
-                    "День $date наступит завтра."
+                    dateIsTomorrowMessage.replace("{Date}", date.toString())
             }
-            return "До $date осталось дней - $daysBetween."
+            return diffBetweenDatesMessage
+                .replace("{Date}", date.toString())
+                .replace("{DaysBetween}", "$daysBetween")
         }
         catch (e: Exception) {
             return "${e.message}"
@@ -106,8 +115,7 @@ class AI(context: Context) {
     }
 
     private fun getDateFromStr(strDate: String):Date{
-        var date = dateRegex.find(strDate)?.value
-            ?.split("[-\\./ ]".toRegex())?.toTypedArray()
+        var date = strDate.split("[-\\./ ]".toRegex()).toTypedArray()
 
         var day = date?.get(0)!!.toInt()
         var month = 0
@@ -118,8 +126,9 @@ class AI(context: Context) {
             if (key.matches(date?.get(1).toString()))
                 month = value
         }
-        if (month == 0)
-            throw Exception("Название месяца введено неверно в ${date.joinToString(" ")}.")
+        if (month < 1 || month > 12)
+            throw Exception(incorrectMonthMessage.replace
+                ("{Date}", strDate))
 
         var year = Date().year
 
@@ -129,7 +138,8 @@ class AI(context: Context) {
             else year -= 1900
         }
 
-        try{ return Date(year, month, day) }
-        catch (e: Exception) { throw Exception("Введена неверная дата ${date.joinToString()}.") }
+        try{ return Date(year, month - 1, day) }
+        catch (e: Exception) { throw Exception(incorrectDateMessage
+            .replace("{Date}", strDate)) }
     }
 }
