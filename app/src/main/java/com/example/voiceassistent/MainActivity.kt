@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.voiceassistent.message.Message
-import com.example.voiceassistent.message.MessageListAdapter
-import java.util.*
-import kotlin.collections.ArrayList
+import com.example.voiceassistent.adapter.Message
+import com.example.voiceassistent.adapter.MessageListAdapter
+import com.example.voiceassistent.ai.AI
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sendButton : Button
@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var chatMessageList: RecyclerView
     var sPref: SharedPreferences? = null
-    private val APP_PREFERENCES = "mysettings"
-    private var isLight = true
+    private val APP_PREFERENCES = "MySettings"
     private val THEME = "THEME"
+    private var isLight = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (!isLight) AppCompatDelegate.MODE_NIGHT_YES
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("LOG", "onCreate")
-        Locale.setDefault(Locale("ru"))
 
         messageListAdapter = MessageListAdapter()
 
@@ -93,22 +92,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSend() {
         val text = questionText.text.toString()
-        messageListAdapter.messageList.add(Message(text, isSend = true))
-        val answer = AI(context = applicationContext).getAnswer(text)
-        messageListAdapter.messageList.add(Message(answer, isSend = false))
-        messageListAdapter.notifyDataSetChanged()
-        chatMessageList.scrollToPosition(messageListAdapter.messageList.size - 1)
-        textToSpeech.speak(answer, TextToSpeech.QUEUE_FLUSH,null, null )
+        messageListAdapter.messageList.add(Message(text, true))
         questionText.text.clear()
         dismissKeyboard()
+
+        messageListAdapter.messageList.add(Message("", false))
+        val lastId = messageListAdapter.messageList.lastIndex
+        var answer = ""
+
+        AI(applicationContext).getAnswer(text) { s ->
+            answer += "$s "
+            messageListAdapter.messageList[lastId] = Message(answer, false)
+            messageListAdapter.notifyDataSetChanged()
+            chatMessageList.scrollToPosition(messageListAdapter.messageList.size - 1)
+            textToSpeech.speak(s, TextToSpeech.QUEUE_ADD,null, null )
+        }
     }
 
     private fun dismissKeyboard() {
-        val view: View? = this.currentFocus // элемент, который имеет текущий фокус ввода
+        val view: View? = this.currentFocus
         if (view != null) {
-            // определить менеджер, отвечающий  за ввод
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            // менеджер скрывает экранную клавиатуру
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
