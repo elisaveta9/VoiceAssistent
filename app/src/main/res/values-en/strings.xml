@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Voice Assistent</string>
+    <string name="app_name">Voice Assistant</string>
     <string name="hint">Ask a question</string>
     <string name="send_button">Send</string>
+    <string name="assistant_name">Assistant</string>
+    <string name="user_name">User</string>
+    <string name="theme_swap">Change the theme</string>
 
     <string name="hello_pattern">(hi)|(hello)</string>
-    <string name="how_are_you_pattern">(how (are you)|(you doing)|(goes it)\\?)</string>
+    <string name="how_are_you_pattern">how (are you( doing)?)|(goes it)\\?</string>
     <string name="what_are_you_doing_pattern">what (are you doing)|(do you do)\\?</string>
-    <string name="date_today_pattern">what\'s the date today\\?</string>
+    <string name="date_today_pattern">what(\'s)|(is) the date today\\?</string>
     <string name="what_time_is_it_pattern">what time is it\\?</string>
     <string name="day_of_the_week_today_pattern">what day of the week is today\\?</string>
+    <string name="diff_between_dates_pattern">how many days until ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))\\?</string>
+    <string name="current_weather_question_pattern">weather in( the city)? [a-zA-Z]+([-., \\\']*[a-zA-Z])*\\?</string>
+    <string name="current_weather_question_fist_part">"weather in( the city)? "</string>
 
     <string name="date_pattern">(\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?)</string>
 
     <string name="hello_answer">Hello.</string>
     <string name="how_are_you_answer">I\'m fine.</string>
-    <string name="what_are_you_doing_answer">I answer the questions/</string>
+    <string name="what_are_you_doing_answer">I answer the questions.</string>
     <string name="what_time_is_it_answer">It\'s {CurrentTime} now.</string>
     <string name="day_of_the_week_today_answer">Today is {CurrentDayOfWeek}.</string>
     <string name="date_today_answer">Today is {CurrentDate} y.</string>
+    <string name="message_date_error">The date you set {Date} is incorrect.</string>
+    <string name="message_month_error">The name of the month is entered incorrectly in the expression {Date}.</string>
+    <string name="message_past_date">The date {Date} has already passed.</string>
+    <string name="message_date_is_today">Date {Date} has come.</string>
+    <string name="message_date_is_tomorrow">Date {Date} will come tomorrow.</string>
+    <string name="message_difference_between_dates">There are {DaysBetween} days left until {Date}.</string>
+    <string name="default_answer">I understand the question. I think...</string>
+    <string name="default_weather_answer">I don\'t know what the weather is like in {City}.</string>
 
     <string name="day_of_week_monday">monday</string>
     <string name="day_of_week_tuesday">tuesday</string>
@@ -40,15 +54,7 @@
     <string name="month_october">october</string>
     <string name="month_november">november</string>
     <string name="month_december">december</string>
-    <string name="diff_between_dates_pattern">how many days until ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))\\?</string>
-    <string name="assistant_name">Assistant</string>
-    <string name="user_name">User</string>
-    <string name="theme_swap">Change the theme</string>
-    <string name="message_date_error">The date you set {Date} is incorrect.</string>
-    <string name="message_month_error">The name of the month is entered incorrectly in the expression {Date}.</string>
-    <string name="message_past_date">The date {Date} has already passed.</string>
-    <string name="message_date_is_today">Date {Date} has come.</string>
-    <string name="message_date_is_tomorrow">Date {Date} will come tomorrow.</string>
-    <string name="message_difference_between_dates">There are {DaysBetween} days left until {Date}.</string>
-    <string name="default_answer">I understand the question. I think...</string>
+    <string name="app_language">en</string>
+    <string name="detailed_weather_answer">Now in {City} it is about {Temperature} degrees Celsius and {WeatherDescriptions}.</string>
+
 </resources>
