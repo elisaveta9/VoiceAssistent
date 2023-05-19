@@ -7,7 +7,7 @@ import java.io.Serializable
 class Geocode(): Serializable {
     @SerializedName("hits")
     @Expose
-    val hits: List<Hit?>? = null
+    val hits: ArrayList<Hit?> = ArrayList()
 }
 class Hit(): Serializable {
     @SerializedName("point")
