@@ -2,6 +2,9 @@
     <string name="app_name">Голосовой ассистент</string>
     <string name="hint">Задайте вопрос</string>
     <string name="send_button">Отправить</string>
+    <string name="assistant_name">Помощник</string>
+    <string name="user_name">Пользователь</string>
+    <string name="theme_swap">Сменить тему</string>
 
     <string name="hello_pattern">(привет(ик)?)|(здравствуй)</string>
     <string name="how_are_you_pattern">как (дел(а|(ишки)))\\?</string>
@@ -9,6 +12,9 @@
     <string name="date_today_pattern">какой сегодня день\\?</string>
     <string name="what_time_is_it_pattern">который час\\?</string>
     <string name="day_of_the_week_today_pattern">какой (сегодня день недели)|(день недели сегодня)\\?</string>
+    <string name="diff_between_dates_pattern">сколько дней( осталось)? до ((\\d{2}[-/\\.]{1}\\d{2}([-/\\\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?))\\?</string>
+    <string name="current_weather_question_pattern">погода в [а-яА-Я]+([-., \\\']*[а-яА-Я])*\\?</string>
+    <string name="current_weather_question_fist_part">погода в( городе)? </string>
 
     <string name="date_pattern">(\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?)</string>
 
@@ -18,6 +24,14 @@
     <string name="what_time_is_it_answer">Текущее время - {CurrentTime}.</string>
     <string name="day_of_the_week_today_answer">Сегодня {CurrentDayOfWeek}.</string>
     <string name="date_today_answer">Сегодня {CurrentDate} г.</string>
+    <string name="message_date_error">Введена неверная дата {Date}.</string>
+    <string name="message_month_error">Название месяца введено неверно в {Date}.</string>
+    <string name="message_past_date">Заданная вами дата {Date} уже прошла.</string>
+    <string name="message_date_is_today">День {Date} уже наступил.</string>
+    <string name="message_date_is_tomorrow">День {Date} наступит завтра.</string>
+    <string name="message_difference_between_dates">До {Date} осталось дней - {DaysBetween}.</string>
+    <string name="default_answer">Вопрос поняла. Думаю...</string>
+    <string name="default_weather_answer">Не знаю я, какая там погода у вас в городе {City}.</string>
 
     <string name="day_of_week_monday">понедельник</string>
     <string name="day_of_week_tuesday">вторник</string>
@@ -39,15 +53,15 @@
     <string name="month_october">октябр(ь|я)</string>
     <string name="month_november">ноябр(ь|я)</string>
     <string name="month_december">декабр(ь|я)</string>
-    <string name="diff_between_dates_pattern">сколько дней( осталось)? до ((\\d{2}[-/\\.]{1}\\d{2}([-/\\\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?))\\?</string>
-    <string name="assistant_name">Помощник</string>
-    <string name="user_name">Пользователь</string>
-    <string name="theme_swap">Сменить тему</string>
-    <string name="message_date_error">Введена неверная дата {Date}.</string>
-    <string name="message_month_error">Название месяца введено неверно в {Date}.</string>
-    <string name="message_past_date">Заданная вами дата {Date} уже прошла.</string>
-    <string name="message_date_is_today">День {Date} уже наступил.</string>
-    <string name="message_date_is_tomorrow">День {Date} наступит завтра.</string>
-    <string name="message_difference_between_dates">До {Date} осталось дней - {DaysBetween}.</string>
-    <string name="default_answer">Вопрос поняла. Думаю...</string>
+    <string name="app_language">ru</string>
+    <string name="detailed_weather_answer">Сейчас в городе {City} около {Temperature} градусов и {WeatherDescriptions}.</string>
+    <string name="holiday_by_date_pattern">праздник( отмечают| был)? ((\\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [а-я]{3,}( \\d{4}( г(.?|ода))?)?)|(сегодня)|(завтра)|(вчера))</string>
+    <string name="wrong_date_of_holiday_answer">Дата {Date} не входит в рамки от {Start} года до {End}.</string>
+    <string name="default_holiday_answer">Праздников нет в дату {Date}.</string>
+    <string name="correct_holidays_answer">"В дату {Date} отмечают: "</string>
+    <string name="today">сегодня</string>
+    <string name="yesterday">вчера</string>
+    <string name="tomorrow">завтра</string>
+    <string name="delete_all_messages">Удалить сообщения</string>
+
 </resources>
