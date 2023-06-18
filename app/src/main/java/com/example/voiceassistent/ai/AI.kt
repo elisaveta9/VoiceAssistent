@@ -187,7 +187,7 @@ class AI(context: Context) {
         }
     }
 
-    private fun getDateFromStr(strDate: String):Date{
+    private fun getDateFromStr(strDate: String): Date {
         val date = strDate.split("[-./ ]".toRegex()).toTypedArray()
 
         val day = date[0].toInt()
@@ -211,8 +211,14 @@ class AI(context: Context) {
             else year -= 1900
         }
 
-        try{ return Date(year, month - 1, day) }
+        try { LocalDate.of(year + 1900, month - 1, day) }
         catch (e: Exception) { throw Exception(incorrectDateMessage
             .replace("{Date}", strDate)) }
+
+        if (day == 29 && month == 2 && year % 4 > 0 && year % 400 != 100)
+            throw Exception(incorrectDateMessage
+                .replace("{Date}", strDate))
+
+        return Date(year, month - 1, day)
     }
 }
