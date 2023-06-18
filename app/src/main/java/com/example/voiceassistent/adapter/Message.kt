@@ -1,6 +1,6 @@
 package com.example.voiceassistent.adapter
 
-import com.example.voiceassistent.data.MessageEntity
+import com.example.voiceassistent.database.entities.MessageEntity
 import java.util.*
 
 data class Message(val text: String, val date: Date, val isSend: Boolean){

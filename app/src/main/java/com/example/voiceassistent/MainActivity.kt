@@ -1,11 +1,8 @@
 package com.example.voiceassistent
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
@@ -19,13 +16,16 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voiceassistent.adapter.Message
 import com.example.voiceassistent.adapter.MessageListAdapter
 import com.example.voiceassistent.ai.AI
-import com.example.voiceassistent.data.DBHelper
-import com.example.voiceassistent.data.MessageEntity
+import com.example.voiceassistent.database.context.MessageDatabase
+import com.example.voiceassistent.database.dao.MessageDao
+import com.example.voiceassistent.database.entities.MessageEntity
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var chatMessageList: RecyclerView
     private lateinit var sPref: SharedPreferences
-    private lateinit var dBHelper: DBHelper
-    private lateinit var database: SQLiteDatabase
+    private lateinit var messageDao: MessageDao
     private val APP_PREFERENCES = "MySettings"
     private val THEME = "THEME"
     private var isLight = true
@@ -50,8 +49,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dBHelper = DBHelper(this)
-        database = dBHelper.writableDatabase
+        messageDao = MessageDatabase(this).getMessageDao()
+        messageListAdapter = MessageListAdapter()
+
+        runOnUiThread {
+            lifecycleScope.launch {
+                val messageList = messageDao.getAllMessage()
+                messageList.forEach {
+                    messageListAdapter.messageList.add(Message(it))
+                }
+            }
+        }
+
         initViewElements()
 
         sPref = getSharedPreferences(APP_PREFERENCES,MODE_PRIVATE)
@@ -73,20 +82,6 @@ class MainActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = sPref.edit()
         editor.putBoolean(THEME, isLight)
         editor.apply()
-
-        database = dBHelper.writableDatabase
-        database.delete(dBHelper.TABLE_NAME, null, null)
-        for (i in 0 until messageListAdapter.itemCount){
-            val entity = MessageEntity(messageListAdapter.messageList[i])
-
-            val contentValues = ContentValues()
-            contentValues.put(dBHelper.FIELD_MESSAGE, entity.text)
-            contentValues.put(dBHelper.FIELD_SEND, entity.isSend)
-            contentValues.put(dBHelper.FIELD_DATE, entity.date)
-
-            database.insert(dBHelper.TABLE_NAME,null,contentValues)
-        }
-        database.close()
 
         super.onStop()
     }
@@ -111,31 +106,15 @@ class MainActivity : AppCompatActivity() {
         else if (item.itemId == R.id.delete_all_messages){
             messageListAdapter.messageList = arrayListOf()
             messageListAdapter.notifyDataSetChanged()
+            lifecycleScope.launch {
+                val messages = messageDao.getAllMessage()
+                messages.forEach{ messageDao.deleteMessage(it) }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun initViewElements(){
-        messageListAdapter = MessageListAdapter()
-
-        val cursor: Cursor =
-            database.query(dBHelper.TABLE_NAME, null, null, null, null, null, null)
-        if (cursor.moveToFirst()) {
-            val messageIndex = cursor.getColumnIndex(dBHelper.FIELD_MESSAGE)
-            val dateIndex = cursor.getColumnIndex(dBHelper.FIELD_DATE)
-            val sendIndex = cursor.getColumnIndex(dBHelper.FIELD_SEND)
-            do {
-                val entity = MessageEntity(
-                    cursor.getString(messageIndex),
-                    cursor.getLong(dateIndex), cursor.getInt(sendIndex)==1
-                )
-                val message = Message(entity)
-                messageListAdapter.messageList.add(message)
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        database.close()
-
         sendButton = findViewById(R.id.sendButton)
         chatMessageList = findViewById(R.id.chatMessageList)
         chatMessageList.layoutManager = LinearLayoutManager(this)
@@ -154,14 +133,26 @@ class MainActivity : AppCompatActivity() {
         messageListAdapter.messageList.add(Message("", false))
         val lastId = messageListAdapter.messageList.lastIndex
         var answer = ""
+        val message = MessageEntity(messageListAdapter.messageList[lastId])
+
+        lifecycleScope.launch {
+            messageDao.addMessage(
+                MessageEntity(messageListAdapter.messageList[lastId - 1]))
+            messageDao.addMessage(
+                MessageEntity(messageListAdapter.messageList[lastId]))
+        }
 
         AI(applicationContext).getAnswer(text) { s ->
             answer += "$s "
             messageListAdapter.messageList[lastId] = Message(answer, false)
+            message.text = answer
+            message.date = messageListAdapter.messageList[lastId].date.time
+            lifecycleScope.launch { messageDao.updateMessage(message) }
             messageListAdapter.notifyDataSetChanged()
             chatMessageList.scrollToPosition(messageListAdapter.itemCount - 1)
             textToSpeech.speak(s, TextToSpeech.QUEUE_ADD,null, null )
         }
+
     }
 
     private fun dismissKeyboard() {
