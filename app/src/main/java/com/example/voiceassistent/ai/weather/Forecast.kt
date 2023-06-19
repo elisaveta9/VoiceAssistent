@@ -12,6 +12,10 @@ class Forecast : Serializable {
     @SerializedName("weather")
     @Expose
     var weather: ArrayList<Weather?> = ArrayList()
+
+    @SerializedName("name")
+    @Expose
+    var name: String = ""
 }
 class Main {
     @SerializedName("temp")

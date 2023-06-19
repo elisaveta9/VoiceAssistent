@@ -74,7 +74,6 @@ class AI(context: Context) {
     private val weatherQuestionFirstPath = context.getString(R.string.current_weather_question_fist_part).toRegex(RegexOption.IGNORE_CASE)
     private val holidayByDateQuestion = context.getString(R.string.holiday_by_date_pattern).toRegex(RegexOption.IGNORE_CASE)
     private val yesterday = context.getString(R.string.yesterday).toRegex(RegexOption.IGNORE_CASE)
-    private val today = context.getString(R.string.today).toRegex(RegexOption.IGNORE_CASE)
     private val tomorrow = context.getString(R.string.tomorrow).toRegex(RegexOption.IGNORE_CASE)
     private val incorrectDateMessage = context.getString(R.string.message_date_error)
     private val incorrectMonthMessage = context.getString(R.string.message_month_error)
@@ -156,7 +155,7 @@ class AI(context: Context) {
         GeocodeLocale().getGeocode(cityName) { geoObject ->
             val lon = geoObject?.point?.pos?.split(" ")?.get(0)?.toDoubleOrNull()
             val lat = geoObject?.point?.pos?.split(" ")?.get(1)?.toDoubleOrNull()
-            if (lon != null) cityName = geoObject.name!!
+            if (lon != null && currentLanguage == "ru") cityName = geoObject.name!!
             ForecastToString().getForecast(lat, lon, cityName, currentLanguage,
                 detailedWeatherAnswer, defaultWeatherAnswer) { weatherString ->
                 callback.accept(weatherString)

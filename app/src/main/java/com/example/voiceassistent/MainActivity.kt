@@ -52,15 +52,6 @@ class MainActivity : AppCompatActivity() {
         messageDao = MessageDatabase(this).getMessageDao()
         messageListAdapter = MessageListAdapter()
 
-        runOnUiThread {
-            lifecycleScope.launch {
-                val messageList = messageDao.getAllMessage()
-                messageList.forEach {
-                    messageListAdapter.messageList.add(Message(it))
-                }
-            }
-        }
-
         initViewElements()
 
         sPref = getSharedPreferences(APP_PREFERENCES,MODE_PRIVATE)
@@ -119,7 +110,16 @@ class MainActivity : AppCompatActivity() {
         chatMessageList = findViewById(R.id.chatMessageList)
         chatMessageList.layoutManager = LinearLayoutManager(this)
         chatMessageList.adapter = messageListAdapter
-        chatMessageList.scrollToPosition(messageListAdapter.itemCount - 1)
+
+        lifecycleScope.launch {
+            val messageList = messageDao.getAllMessage()
+            messageList.forEach {
+                messageListAdapter.messageList.add(Message(it))
+                messageListAdapter.notifyDataSetChanged()
+            }
+            chatMessageList.scrollToPosition(messageListAdapter.itemCount - 1)
+        }
+
         questionText = findViewById(R.id.questionField)
     }
 
@@ -133,26 +133,28 @@ class MainActivity : AppCompatActivity() {
         messageListAdapter.messageList.add(Message("", false))
         val lastId = messageListAdapter.messageList.lastIndex
         var answer = ""
-        val message = MessageEntity(messageListAdapter.messageList[lastId])
+        var lastIdData = lastId
 
         lifecycleScope.launch {
             messageDao.addMessage(
                 MessageEntity(messageListAdapter.messageList[lastId - 1]))
             messageDao.addMessage(
                 MessageEntity(messageListAdapter.messageList[lastId]))
+            lastIdData = messageDao.getAllMessage().last().id
         }
 
         AI(applicationContext).getAnswer(text) { s ->
+            textToSpeech.speak(s, TextToSpeech.QUEUE_ADD,null, null )
             answer += "$s "
             messageListAdapter.messageList[lastId] = Message(answer, false)
-            message.text = answer
-            message.date = messageListAdapter.messageList[lastId].date.time
-            lifecycleScope.launch { messageDao.updateMessage(message) }
+            lifecycleScope.launch {
+                messageDao.updateMessage(MessageEntity(lastIdData,
+                    answer,
+                    messageListAdapter.messageList[lastId].date.time,
+                    false)) }
             messageListAdapter.notifyDataSetChanged()
             chatMessageList.scrollToPosition(messageListAdapter.itemCount - 1)
-            textToSpeech.speak(s, TextToSpeech.QUEUE_ADD,null, null )
         }
-
     }
 
     private fun dismissKeyboard() {

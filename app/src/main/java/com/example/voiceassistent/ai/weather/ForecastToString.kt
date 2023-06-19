@@ -10,8 +10,10 @@ import kotlin.math.roundToInt
 class ForecastToString {
     fun getForecast(lat: Double?, lon: Double?, city: String?, currLanguage: String?,
                     correctAnswer: String, defaultAnswer: String, callback: Consumer<String>) {
+        var cityName = city
+
         if (lat == null || lon == null) {
-            callback.accept(defaultAnswer.replace("{City}", city!!))
+            callback.accept(defaultAnswer.replace("{City}", cityName!!))
             return
         }
 
@@ -19,20 +21,25 @@ class ForecastToString {
         val call: Call<Forecast?>? = api?.getCurrentWeather(
             lat, lon, currLanguage)
 
+
         call!!.enqueue(object : Callback<Forecast?> {
             override fun onResponse(call: Call<Forecast?>, response: Response<Forecast?>) {
                 val result = response.body()
 
                 if (result != null){
                     val temp = result.main?.temp?.minus(273.15)?.let { (it * 10).roundToInt() / 10.0 }
+                    if (currLanguage != "ru")
+                        cityName = result.name
                     val answer: String =  correctAnswer
-                        .replace("{City}", city!!)
+                        .replace("{City}", cityName!!)
                         .replace("{Temperature}", temp.toString())
                         .replace("{WeatherDescriptions}", result.weather[0]?.description!!)
                     callback.accept(correctStr(temp!!, answer, currLanguage))
                 }
                 else{
-                    callback.accept(correctStr(defaultAnswer.replace("{City}", city!!), currLanguage))
+                    callback.accept(correctStr(defaultAnswer.replace("{City}",
+                        cityName!!
+                    ), currLanguage))
                 }
             }
 

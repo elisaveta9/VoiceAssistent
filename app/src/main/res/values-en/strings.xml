@@ -56,7 +56,7 @@
     <string name="month_december">december</string>
     <string name="app_language">en</string>
     <string name="detailed_weather_answer">Now in {City} it is about {Temperature} degrees Celsius and {WeatherDescriptions}.</string>
-    <string name="holiday_by_date_pattern">what (holiday (was|is) ((yesterday)|(tomorrow)|(it today)|(is the holiday on \\d{2}[-/\\.]{1}\\d{2}([-/\\.]\\d{2}(\\d{2})?)?)|(\\d{1,2}(-го)? [a-z]{3,}( \\d{4}( y(.?|ear))?)?))</string>
+    <string name="holiday_by_date_pattern">what (holiday (was|is) ((yesterday)|(tomorrow)|(it today)|(is the holiday on \d{2}[-/\.]+\d{2}([-/\.]\d{2}(\d{2})?)?)|(\d{1,2}(-го)? [a-z]{3,}( \d{4}( y(.?|ear))?)?)))</string>
     <string name="wrong_date_of_holiday_answer">The date {Date} is not included in the frame from {Start} of the year to {End}.</string>
     <string name="default_holiday_answer">There are no holidays on the date {Date}.</string>
     <string name="correct_holidays_answer">"On the date {Date}, "</string>
