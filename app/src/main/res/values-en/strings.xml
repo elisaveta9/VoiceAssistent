@@ -31,7 +31,7 @@
     <string name="message_date_is_today">Date {Date} has come.</string>
     <string name="message_date_is_tomorrow">Date {Date} will come tomorrow.</string>
     <string name="message_difference_between_dates">There are {DaysBetween} days left until {Date}.</string>
-    <string name="default_answer">I understand the question. I think...</string>
+    <string name="default_answer">I understand the question. I think…</string>
     <string name="default_weather_answer">I don\'t know what the weather is like in {City}.</string>
 
     <string name="day_of_week_monday">monday</string>

@@ -168,10 +168,10 @@ class AI(context: Context) {
             val dateStr = dateRegex.find(question)
             val date: Date = if (dateStr == null) {
                 var localDate = LocalDate.now()
-                if (yesterday.matches(question)) localDate =
-                    localDate.minusDays(1)
-                else if (tomorrow.matches((question))) localDate =
-                    localDate.plusDays(1)
+                if (yesterday.containsMatchIn(question))
+                    localDate = localDate.minusDays(1)
+                else if (tomorrow.containsMatchIn((question)))
+                    localDate = localDate.plusDays(1)
                 Date(localDate.year - 1900, localDate.monthValue - 1, localDate.dayOfMonth)
             } else
                 getDateFromStr(dateStr.value)

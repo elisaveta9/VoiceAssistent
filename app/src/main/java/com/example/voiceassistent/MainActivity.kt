@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initViewElements(){
         sendButton = findViewById(R.id.sendButton)
         chatMessageList = findViewById(R.id.chatMessageList)
